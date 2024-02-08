@@ -1,8 +1,8 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,40 +18,67 @@ namespace PageObjects.PageObjects
             this.driver = driver;
         }
 
-        //private int GetCartTableRowValue(string productName, string valueType)
-        //{
-        //    IWebElement targetedRow;
+        private IWebElement GetCartTableRow(string productName)
+        {
+            IWebElement productRow = null;
 
-        //    //var tableHeaderElement = driver.FindElement(By.TagName("thead"));
-        //    //IWebElement tableheaderRow = tableHeaderElement.FindElement(By.TagName("tr"));
 
-        //    var tableBodyElement = driver.FindElement(By.TagName("tbody")); //use table class selector instead then get tbody
-        //    IList<IWebElement> tableBodyRows = tableBodyElement.FindElements(By.TagName("tr"));
+            //IWebElement tableDiv = driver.FindElement(By.ClassName("container-fluid"));
 
-        //    foreach (var row in tableBodyRows)
-        //    {
-        //        IList<IWebElement> tableRowDivisions = row.FindElements(By.TagName("td"));
-        //        foreach (var rowDivision in tableRowDivisions)
-        //        {
+            //IWebElement innerTableDiv = tableDiv.FindElement(By.ClassName("ng-scope"));
 
-        //        }
-        //    }
-        //}
+            IWebElement tableBodyElement = driver.FindElement(By.TagName("tbody"));
+            
+            IList<IWebElement> tableBodyRows = tableBodyElement.FindElements(By.TagName("tr"));
 
+            foreach (var row in tableBodyRows)
+            {
+                var imgElement = row.FindElement(By.TagName("img"));
+                if (imgElement.Text == productName)
+                {
+                    productRow = row;
+                    break;
+                }
+            }
+            return productRow;
+        }
+
+        private int GetIndexOfColumnName(string columnName)
+        {
+            var tableHeaderElement = driver.FindElement(By.TagName("thead"));
+            var thList = tableHeaderElement.FindElements(By.TagName("th"));
+            return thList.IndexOf(thList.First(p => p.Text == columnName));
+        }
 
         public double GetPrice(string productName)
         {
-            return 0.0;
+            IList<IWebElement> tdList =
+                GetCartTableRow(productName)
+                .FindElements(By.TagName("td"));
+
+            var trimmedPrice = tdList.ElementAt(GetIndexOfColumnName("Price")).Text.Substring(1);
+            return Double.Parse(trimmedPrice);
         }
 
         public int GetQuantity(string productName)
         {
-            return 1;
+            IList<IWebElement> tdList =
+               GetCartTableRow(productName)
+               .FindElements(By.TagName("td"));
+
+            var quantityElement = tdList.ElementAt(GetIndexOfColumnName("Quanity")).FindElement(By.TagName("input"));
+            var quantity = quantityElement.GetDomAttribute("value");
+            return Int32.Parse(quantity);
         }
 
         public double GetSubtotal(string productName)
         {
-            return 0.0;
+            IList<IWebElement> tdList =
+               GetCartTableRow(productName)
+               .FindElements(By.TagName("td"));
+
+            var trimmedSubtotal = tdList.ElementAt(GetIndexOfColumnName("Subtotal")).Text.Substring(1);
+            return Double.Parse(trimmedSubtotal);
         }
     }
 }

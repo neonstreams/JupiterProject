@@ -64,20 +64,33 @@ namespace JupiterProject.Tests
         }
 
         [Test]
-        public void NavigateToShopPageThenAddProductsAndVerifyTotalsOnCartPage()
+        public void NavigateToShopPageThenAddProductsAndVerifyPricesOnCartPage()
         {
             //navigate to shop page
             var jupiterShopPage = JupiterHomePage.NavigateToShopPage();
 
-            //add the products to the cart - use generic method, test case should be super readable
+            //grab the products to use during Asserts
+            var frogProduct =  jupiterShopPage.GetProduct("Stuffed Frog");
+            var bunnyProduct = jupiterShopPage.GetProduct("Fluffy Bunny");
+            var bearProduct =  jupiterShopPage.GetProduct("Valentine Bear");
+
+            //add the products to the cart
             jupiterShopPage.GetProduct("Stuffed Frog").ClickBuyButton(2);
             jupiterShopPage.GetProduct("Fluffy Bunny").ClickBuyButton(5);
             jupiterShopPage.GetProduct("Valentine Bear").ClickBuyButton(3);
 
             //navigate to the cart page
-            //var jupiterCartPage = JupiterHomePage.NavigateToCartPage();
+            var jupiterCartPage = JupiterHomePage.NavigateToCartPage();
 
+            //get cart prices for the products
+            var frogCartPrice = jupiterCartPage.GetPrice("Stuffed Frog");
+            var bunnyCartPrice = jupiterCartPage.GetPrice("Fluffy Bunny");
+            var bearCartPrice = jupiterCartPage.GetPrice("Valentine Bear");
 
+            //assert the prices match
+            Assert.That(jupiterCartPage.GetPrice("Stuffed Frog"), Is.EqualTo(frogProduct.ProductPrice));
+            Assert.That(jupiterCartPage.GetPrice("Fluffy Bunny"), Is.EqualTo(bunnyProduct.ProductPrice));
+            Assert.That(jupiterCartPage.GetPrice("Valentine Bear"), Is.EqualTo(bearProduct.ProductPrice));
         }
     }
 }
