@@ -20,5 +20,5 @@ PageObjects/obj/Debug/net6.0
 PageObjects/obj/project.nuget.cache
 JupiterProject/obj/project.nuget.cache
 JupiterProject/obj/Debug/net6.0
-PageObjects/bin/Debug/net6.0/selenium-manager
 JupiterProject/bin/Debug/net6.0
+PageObjects/bin/Debug/net6.0/selenium-manager
