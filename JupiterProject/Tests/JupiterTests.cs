@@ -57,10 +57,7 @@ namespace JupiterProject.Tests
             jupiterContactPage.SubmitForm();
             jupiterContactPage.WaitUntilSubmissionLoadingModalFinishes();
 
-            var expectedSubmissionFormSuccessMessageVisible = true;
-            var actualSubmissionFormSuccessMessageVisible = jupiterContactPage.FormSubmissionSuccessMessageIsVisible();
-
-            Assert.That(actualSubmissionFormSuccessMessageVisible, Is.EqualTo(expectedSubmissionFormSuccessMessageVisible));
+            Assert.That(jupiterContactPage.FormSubmissionSuccessMessageIsVisible(), Is.EqualTo(true));
         }
 
         [Test]
@@ -75,22 +72,32 @@ namespace JupiterProject.Tests
             var bearProduct =  jupiterShopPage.GetProduct("Valentine Bear");
 
             //add the products to the cart
-            jupiterShopPage.GetProduct("Stuffed Frog").ClickBuyButton(2);
-            jupiterShopPage.GetProduct("Fluffy Bunny").ClickBuyButton(5);
-            jupiterShopPage.GetProduct("Valentine Bear").ClickBuyButton(3);
+            frogProduct.ClickBuyButton(2);
+            bunnyProduct.ClickBuyButton(5);
+            bearProduct.ClickBuyButton(3);
 
             //navigate to the cart page
             var jupiterCartPage = JupiterHomePage.NavigateToCartPage();
-
-            //get cart prices for the products
-            var frogCartPrice = jupiterCartPage.GetPrice("Stuffed Frog");
-            var bunnyCartPrice = jupiterCartPage.GetPrice("Fluffy Bunny");
-            var bearCartPrice = jupiterCartPage.GetPrice("Valentine Bear");
 
             //assert the prices match
             Assert.That(jupiterCartPage.GetPrice("Stuffed Frog"), Is.EqualTo(frogProduct.ProductPrice));
             Assert.That(jupiterCartPage.GetPrice("Fluffy Bunny"), Is.EqualTo(bunnyProduct.ProductPrice));
             Assert.That(jupiterCartPage.GetPrice("Valentine Bear"), Is.EqualTo(bearProduct.ProductPrice));
+
+            //assert each subtotal equals the cart price x cart quantity
+            Assert.That(jupiterCartPage.GetSubtotal("Stuffed Frog"), Is.EqualTo(jupiterCartPage.GetPrice("Stuffed Frog") * 
+                                                                                jupiterCartPage.GetQuantity("Stuffed Frog")));
+
+            Assert.That(jupiterCartPage.GetSubtotal("Fluffy Bunny"), Is.EqualTo(jupiterCartPage.GetPrice("Fluffy Bunny") * 
+                                                                                jupiterCartPage.GetQuantity("Fluffy Bunny")));
+
+            Assert.That(jupiterCartPage.GetSubtotal("Valentine Bear"), Is.EqualTo(jupiterCartPage.GetPrice("Valentine Bear") * 
+                                                                                  jupiterCartPage.GetQuantity("Valentine Bear")));
+
+            //assert the cart total equals the subtotals added together
+            Assert.That(jupiterCartPage.GetCartTotal(), Is.EqualTo(jupiterCartPage.GetSubtotal("Stuffed Frog") +
+                                                                   jupiterCartPage.GetSubtotal("Fluffy Bunny") +
+                                                                   jupiterCartPage.GetSubtotal("Valentine Bear")));
         }
     }
 }

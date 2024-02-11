@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -48,7 +49,5 @@ namespace PageObjects.PageObjects
             Product product = new Product(name, price, buttonElement);
             return product;
         }
-
-
     }
 }

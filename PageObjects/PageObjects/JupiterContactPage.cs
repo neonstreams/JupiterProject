@@ -16,9 +16,9 @@ namespace PageObjects.PageObjects
         private IWebElement EmailField => driver.FindElement(By.Id("email"));
         private IWebElement MessageField => driver.FindElement(By.Id("message"));
 
-        private IWebElement ForenameErrorMessage; //=> driver.FindElement(By.Name("forename-err"));
+        private IWebElement ForenameErrorMessage; 
 
-        private IWebElement SubmitButton; //=> driver.FindElement(By.LinkText("Submit")); 
+        private IWebElement SubmitButton; 
 
         private string GetErrorText(By locator)
         {
@@ -60,27 +60,24 @@ namespace PageObjects.PageObjects
         public JupiterContactPage WriteTextToForenameField(string text)
         {
             ForenameField.SendKeys(text);
-
             return this;
         }
 
         public JupiterContactPage WriteTextToEmailField(string text)
         {
             EmailField.SendKeys(text);
-
             return this;
         }
 
         public JupiterContactPage WriteTextToMessageField(string text)
         {
             MessageField.SendKeys(text);
-
             return this;
         }
 
         public void WaitUntilSubmissionLoadingModalFinishes()
         {
-            //fluent wait
+            //Fluent wait
             WebDriverWait webDriverWait = new WebDriverWait(driver, TimeSpan.FromSeconds(30))
             {
                 PollingInterval = TimeSpan.FromSeconds(1)
@@ -88,10 +85,7 @@ namespace PageObjects.PageObjects
             webDriverWait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.ClassName("modal-header")));
         }
 
-
-
-
-        //explicitly wait for Submit Button to exist in the DOM
+        //Explicitly wait for Submit Button to exist in the DOM
         public JupiterContactPage SubmitForm()
         {
             WebDriverWait webDriverWait = new WebDriverWait(driver, TimeSpan.FromSeconds(3));
@@ -103,71 +97,9 @@ namespace PageObjects.PageObjects
             return this;
         }
 
-        public bool ForenameErrorMessageIsVisible()
-        {
-
-            try
-            {
-                //Explicit wait code
-                //WebDriverWait webDriverWait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-                //var condition = webDriverWait.Until(e => e.FindElement(By.Id("forename-err")));
-
-                if (driver.FindElement(By.Id("forename-err")).Displayed)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (NoSuchElementException)
-            {
-                return false;
-            }
-        }
-
-        public bool EmailErrorMessageIsVisible()
-        {
-            try
-            {
-                if (driver.FindElement(By.Id("email-err")).Displayed)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (NoSuchElementException)
-            {
-                return false;
-            }
-        }
-
-        public bool MessageErrorMessageIsVisible()
-        {
-            try
-            {
-                if (driver.FindElement(By.Id("message-err")).Displayed)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (NoSuchElementException)
-            {
-                return false;
-            }
-        }
-
         public bool FormSubmissionSuccessMessageIsVisible()
         {
-            //Explicit wait code
+            //Explicit wait
             WebDriverWait webDriverWait = new WebDriverWait(driver, TimeSpan.FromSeconds(3));
             var condition = webDriverWait.Until(e => e.FindElement(By.CssSelector("div.alert.alert-success")));
 

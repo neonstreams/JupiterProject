@@ -13,7 +13,6 @@ namespace PageObjects.PageObjects
         //locators
         private IWebElement ContactButton => driver.FindElement(By.Id("nav-contact"));
         private IWebElement ShopButton => driver.FindElement(By.Id("nav-shop"));
-
         private IWebElement CartButton => driver.FindElement(By.Id("nav-cart"));
 
         private IWebDriver driver;
@@ -36,7 +35,7 @@ namespace PageObjects.PageObjects
         {
             ShopButton.Click();
             WebDriverWait webDriverWait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            webDriverWait.Until(driver => driver.FindElement(By.CssSelector("div.products.ng-scope")));
+            webDriverWait.Until(driver => driver.FindElement(By.CssSelector("div[class='products ng-scope']")));
 
             return new JupiterShopPage(driver);
         }
@@ -44,8 +43,11 @@ namespace PageObjects.PageObjects
         public JupiterCartPage NavigateToCartPage()
         {
             CartButton.Click();
-            WebDriverWait webDriverWait = new WebDriverWait(driver, TimeSpan.FromSeconds(20));
-            webDriverWait.Until(driver => driver.FindElement(By.ClassName("container-fluid")));
+            WebDriverWait webDriverWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            webDriverWait.Until(driver => driver.FindElement(By.CssSelector("div[class='container-fluid']")));
+            webDriverWait.Until(driver => driver.FindElement(By.CssSelector("p[class='cart-msg']")));
+            webDriverWait.Until(driver => driver.FindElement(By.TagName("form")));
+            webDriverWait.Until(driver => driver.FindElement(By.TagName("tbody")));
 
             return new JupiterCartPage(driver);
         }

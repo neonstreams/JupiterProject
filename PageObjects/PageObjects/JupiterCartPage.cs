@@ -18,31 +18,27 @@ namespace PageObjects.PageObjects
             this.driver = driver;
         }
 
-        private IWebElement GetCartTableRow(string productName)
+        //Returns a list of <td> elements, for the row that matches the product name passed in.
+        private IList<IWebElement> GetCartTableRow(string productName)
         {
             IWebElement productRow = null;
-
-
-            //IWebElement tableDiv = driver.FindElement(By.ClassName("container-fluid"));
-
-            //IWebElement innerTableDiv = tableDiv.FindElement(By.ClassName("ng-scope"));
-
-            IWebElement tableBodyElement = driver.FindElement(By.TagName("tbody"));
-            
-            IList<IWebElement> tableBodyRows = tableBodyElement.FindElements(By.TagName("tr"));
+            var tableElement = driver.FindElement(By.CssSelector("table[class='table table-striped cart-items']"));
+            var tableBodyElement = tableElement.FindElement(By.TagName("tbody"));
+            var tableBodyRows = tableBodyElement.FindElements(By.CssSelector("tr[class='cart-item ng-scope']"));
 
             foreach (var row in tableBodyRows)
             {
-                var imgElement = row.FindElement(By.TagName("img"));
-                if (imgElement.Text == productName)
+                var firstTdElement = row.FindElements(By.TagName("td")).First();
+                if (firstTdElement.Text == productName)
                 {
                     productRow = row;
                     break;
                 }
             }
-            return productRow;
+            return productRow.FindElements(By.TagName("td"));
         }
 
+        //Returns the index of a table column based on the column's title - e.g. "Item", "Quantity", "Subtotal" etc.
         private int GetIndexOfColumnName(string columnName)
         {
             var tableHeaderElement = driver.FindElement(By.TagName("thead"));
@@ -50,34 +46,34 @@ namespace PageObjects.PageObjects
             return thList.IndexOf(thList.First(p => p.Text == columnName));
         }
 
+        public double GetCartTotal()
+        {
+            var tableFooterElement = driver.FindElement(By.TagName("tfoot"));
+            var totalElement = tableFooterElement.FindElement(By.CssSelector("strong[class='total ng-binding']"));
+            return Double.Parse(totalElement.Text.Substring(6));
+        }
+
         public double GetPrice(string productName)
         {
-            IList<IWebElement> tdList =
-                GetCartTableRow(productName)
-                .FindElements(By.TagName("td"));
-
-            var trimmedPrice = tdList.ElementAt(GetIndexOfColumnName("Price")).Text.Substring(1);
+            var trimmedPrice = GetCartTableRow(productName)
+                                .ElementAt(GetIndexOfColumnName("Price"))
+                                    .Text.Substring(1);
             return Double.Parse(trimmedPrice);
         }
 
         public int GetQuantity(string productName)
         {
-            IList<IWebElement> tdList =
-               GetCartTableRow(productName)
-               .FindElements(By.TagName("td"));
-
-            var quantityElement = tdList.ElementAt(GetIndexOfColumnName("Quanity")).FindElement(By.TagName("input"));
-            var quantity = quantityElement.GetDomAttribute("value");
-            return Int32.Parse(quantity);
+            var quantityElement = GetCartTableRow(productName)
+                                    .ElementAt(GetIndexOfColumnName("Quantity"))
+                                        .FindElement(By.TagName("input"));
+            return Int32.Parse(quantityElement.GetDomAttribute("value"));
         }
 
         public double GetSubtotal(string productName)
         {
-            IList<IWebElement> tdList =
-               GetCartTableRow(productName)
-               .FindElements(By.TagName("td"));
-
-            var trimmedSubtotal = tdList.ElementAt(GetIndexOfColumnName("Subtotal")).Text.Substring(1);
+            var trimmedSubtotal = GetCartTableRow(productName)
+                                    .ElementAt(GetIndexOfColumnName("Subtotal"))
+                                        .Text.Substring(1);
             return Double.Parse(trimmedSubtotal);
         }
     }
