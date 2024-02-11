@@ -1,5 +1,0 @@
-C:\dev\JupiterProject\PageObjects\obj\Release\net6.0\PageObjects.csproj.AssemblyReference.cache
-C:\dev\JupiterProject\PageObjects\obj\Release\net6.0\PageObjects.GeneratedMSBuildEditorConfig.editorconfig
-C:\dev\JupiterProject\PageObjects\obj\Release\net6.0\PageObjects.AssemblyInfoInputs.cache
-C:\dev\JupiterProject\PageObjects\obj\Release\net6.0\PageObjects.AssemblyInfo.cs
-C:\dev\JupiterProject\PageObjects\obj\Release\net6.0\PageObjects.csproj.CoreCompileInputs.cache

@@ -8,3 +8,17 @@ JupiterProject/obj/Debug/net6.0-windows/JupiterProject.assets.cache
 JupiterProject/obj/Debug/net6.0-windows/JupiterProject.csproj.AssemblyReference.cache
 JupiterProject/obj/Debug/net6.0-windows/JupiterProject.GeneratedMSBuildEditorConfig.editorconfig
 JupiterProject/obj/Debug/net6.0-windows/JupiterProject.GlobalUsings.g.cs
+PageObjects/obj/Release
+JupiterProject/bin/Release
+JupiterProject/obj/Release
+PageObjects/bin/Debug/net6.0/PageObjects.deps.json
+PageObjects/bin/Debug/net6.0/PageObjects.dll
+PageObjects/bin/Debug/net6.0/PageObjects.pdb
+PageObjects/obj/Debug/net6.0/ref/PageObjects.dll
+PageObjects/obj/Debug/net6.0/refint/PageObjects.dll
+PageObjects/obj/Debug/net6.0
+PageObjects/obj/project.nuget.cache
+JupiterProject/obj/project.nuget.cache
+JupiterProject/obj/Debug/net6.0
+PageObjects/bin/Debug/net6.0/selenium-manager
+JupiterProject/bin/Debug/net6.0
