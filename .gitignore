@@ -1,1 +1,10 @@
 ﻿.vs
+JupiterProject/bin/Debug/net6.0/nunit_random_seed.tmp
+JupiterProject/obj/Debug/net6.0/apphost.exe
+JupiterProject/obj/Debug/net6.0-windows/.NETCoreApp,Version=v6.0.AssemblyAttributes.cs
+JupiterProject/obj/Debug/net6.0-windows/JupiterProject.AssemblyInfo.cs
+JupiterProject/obj/Debug/net6.0-windows/JupiterProject.AssemblyInfoInputs.cache
+JupiterProject/obj/Debug/net6.0-windows/JupiterProject.assets.cache
+JupiterProject/obj/Debug/net6.0-windows/JupiterProject.csproj.AssemblyReference.cache
+JupiterProject/obj/Debug/net6.0-windows/JupiterProject.GeneratedMSBuildEditorConfig.editorconfig
+JupiterProject/obj/Debug/net6.0-windows/JupiterProject.GlobalUsings.g.cs
